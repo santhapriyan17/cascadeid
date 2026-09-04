@@ -37,3 +37,4 @@ python -m cascadeid.cli.main experiment --config configs/experiment.yaml
 
 CascadeID detects *likely coordinated wallet behavior based on observable
 on-chain evidence*. It does not identify real-world identities or prove malicious intent.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
