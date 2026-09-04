@@ -1,0 +1,43 @@
+# CascadeID — base configuration (overridden by environment-specific configs)
+
+temporal:
+  window_size_seconds: 86400       # 1 day
+  window_stride_seconds: 43200     # 12 hours (50% overlap)
+  history_windows: 30              # retain 30 windows of state
+  min_observations_per_window: 3
+
+lag:
+  tau_max_windows: 5               # search ±5 windows
+  min_overlap_windows: 3
+  min_correlation_threshold: 0.35
+
+candidates:
+  strategies:
+    - activity_regime
+    - temporal_overlap
+  max_pairs_per_wallet: 500
+
+graph:
+  min_coordination_score: 0.40
+  min_repeated_alignment: 2
+  min_confidence: 0.30
+
+risk:
+  entry_threshold: 0.85
+  exit_threshold: 0.70
+  decay_lambda: 0.05               # evidence decay rate
+
+weighting:
+  strategy: inverse_frequency      # inverse_frequency | discriminative | learned
+
+clustering:
+  algorithm: louvain
+  resolution: 1.0
+
+evaluation:
+  random_seed: 42
+  temporal_split_ratio: [0.6, 0.2, 0.2]  # train / val / test
+
+logging:
+  level: INFO
+  format: json

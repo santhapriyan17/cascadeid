@@ -1,0 +1,35 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: cascadeid
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: cascadeid
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  api:
+    build: .
+    command: uvicorn cascadeid.api.app:create_app --factory --host 0.0.0.0 --port 8000
+    ports:
+      - "8000:8000"
+    env_file: .env
+    depends_on: [db]
+    volumes:
+      - ./data:/app/data
+      - ./artifacts:/app/artifacts
+
+  worker:
+    build: .
+    command: python -m cascadeid.cli.main worker
+    env_file: .env
+    depends_on: [db]
+    volumes:
+      - ./data:/app/data
+      - ./artifacts:/app/artifacts
+
+volumes:
+  pgdata:
